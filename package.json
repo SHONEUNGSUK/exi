@@ -1,0 +1,15 @@
+{
+  "name": "iso15118-exi-web",
+  "version": "1.0.0",
+  "description": "ISO 15118-20 EXI Codec Web — V2G charging protocol encoder/decoder",
+  "main": "server/app.js",
+  "scripts": {
+    "build":  "bash scripts/build_codec.sh",
+    "start":  "node server/app.js",
+    "dev":    "node server/app.js"
+  },
+  "dependencies": {},
+  "engines": { "node": ">=18.0.0" },
+  "keywords": ["iso15118","exi","v2g","ev-charging","codec"],
+  "license": "MIT"
+}

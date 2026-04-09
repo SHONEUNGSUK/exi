@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ISO 15118-20  SupportedAppProtocolReq  (V2GCI_AppProtocol)
+     EV → EVSE  : First message on the TCP layer, before any V2G session.
+     The EV lists supported protocol namespaces in priority order. -->
+<app:supportedAppProtocolReq
+    xmlns:app="urn:iso:std:iso:15118:-20:AppProtocol">
+
+  <app:AppProtocol>
+    <app:ProtocolNamespace>urn:iso:std:iso:15118:-20:CommonMessages</app:ProtocolNamespace>
+    <app:VersionNumberMajor>2</app:VersionNumberMajor>
+    <app:VersionNumberMinor>0</app:VersionNumberMinor>
+    <app:SchemaID>1</app:SchemaID>
+    <app:Priority>1</app:Priority>
+  </app:AppProtocol>
+
+  <app:AppProtocol>
+    <app:ProtocolNamespace>urn:iso:std:iso:15118:-20:DC</app:ProtocolNamespace>
+    <app:VersionNumberMajor>2</app:VersionNumberMajor>
+    <app:VersionNumberMinor>0</app:VersionNumberMinor>
+    <app:SchemaID>2</app:SchemaID>
+    <app:Priority>2</app:Priority>
+  </app:AppProtocol>
+
+  <app:AppProtocol>
+    <app:ProtocolNamespace>urn:iso:std:iso:15118:-20:AC</app:ProtocolNamespace>
+    <app:VersionNumberMajor>2</app:VersionNumberMajor>
+    <app:VersionNumberMinor>0</app:VersionNumberMinor>
+    <app:SchemaID>3</app:SchemaID>
+    <app:Priority>3</app:Priority>
+  </app:AppProtocol>
+
+</app:supportedAppProtocolReq>

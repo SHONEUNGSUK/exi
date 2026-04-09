@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ISO 15118-20 EXI Codec</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <div>
+        <div class="logo-title">ISO 15118-20 EXI Codec</div>
+        <div class="logo-sub">W3C EXI 1.0 · V2G Electric Vehicle Charging</div>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <a class="nav-btn active" data-tab="encode">📄 Encode</a>
+      <a class="nav-btn"        data-tab="decode">🔍 Decode</a>
+      <a class="nav-btn"        data-tab="about">ℹ About</a>
+      <span id="status-badge" class="badge">● Connecting…</span>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- ══ ENCODE ══════════════════════════════════════════ -->
+  <section id="tab-encode" class="tab active">
+    <div class="split">
+
+      <!-- LEFT: XML input -->
+      <div class="pane">
+        <div class="pane-header">
+          <span class="pane-title">📄 XML Input</span>
+          <div class="pane-tools">
+            <select id="ex-select" class="mini-select">
+              <option value="">— Load example —</option>
+            </select>
+            <label class="icon-btn" for="xml-upload" title="Upload .xml">📁</label>
+            <input id="xml-upload" type="file" accept=".xml" hidden/>
+            <button id="btn-xml-clear" class="icon-btn" title="Clear">✕</button>
+          </div>
+        </div>
+
+        <textarea id="xml-in" class="code-area"
+          spellcheck="false"
+          placeholder="<?xml version=&quot;1.0&quot;?>\n<cm:SessionSetupReq xmlns:cm=&quot;urn:iso:std:iso:15118:-20:CommonMessages&quot;>\n  ...\n</cm:SessionSetupReq>"></textarea>
+
+        <div class="pane-footer">
+          <span id="xml-size" class="footer-info">0 B</span>
+          <span id="xml-root" class="footer-tag"></span>
+        </div>
+
+        <div class="opt-row">
+          <span class="opt-label">Alignment mode:</span>
+          <div class="seg" id="enc-align">
+            <button class="seg-btn active" data-val="bit">
+              Bit-packed<small>최소 크기</small>
+            </button>
+            <button class="seg-btn" data-val="byte">
+              Byte-aligned<small>디버그 용이</small>
+            </button>
+            <button class="seg-btn" data-val="compress">
+              Compressed<small>zlib</small>
+            </button>
+          </div>
+          <button id="btn-encode" class="action-btn">⚡ Encode to EXI</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: EXI output -->
+      <div class="pane">
+        <div class="pane-header">
+          <span class="pane-title">🔢 EXI Binary Output</span>
+          <div class="pane-tools">
+            <div class="seg seg-sm" id="view-tog">
+              <button class="seg-btn active" data-v="hex">Hex</button>
+              <button class="seg-btn" data-v="bin">Binary</button>
+              <button class="seg-btn" data-v="b64">Base64</button>
+            </div>
+            <button id="btn-copy-exi" class="icon-btn" disabled>📋 Copy</button>
+            <button id="btn-dl-exi"   class="icon-btn" disabled>⬇ .exi</button>
+          </div>
+        </div>
+
+        <div id="enc-stats" class="stat-bar hidden">
+          <div class="stat"><div class="sv" id="sv-xml">—</div><div class="sk">XML</div></div>
+          <div class="stat-arrow">→</div>
+          <div class="stat"><div class="sv" id="sv-exi">—</div><div class="sk">EXI</div></div>
+          <div class="stat hi"><div class="sv" id="sv-pct">—</div><div class="sk">압축률</div></div>
+          <div class="stat"><div class="sv" id="sv-msg">—</div><div class="sk">메시지</div></div>
+        </div>
+
+        <div id="enc-empty" class="empty-state">
+          <div class="empty-icon">⚡</div>
+          <div>XML을 입력하고 <strong>Encode to EXI</strong>를 클릭하세요</div>
+          <div class="empty-hint">Ctrl+Enter로 빠르게 실행</div>
+        </div>
+        <pre id="exi-hex" class="code-area out hidden"></pre>
+        <pre id="exi-bin" class="code-area out hidden"></pre>
+        <pre id="exi-b64" class="code-area out hidden"></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ DECODE ══════════════════════════════════════════ -->
+  <section id="tab-decode" class="tab hidden">
+    <div class="split">
+
+      <!-- LEFT: EXI input -->
+      <div class="pane">
+        <div class="pane-header">
+          <span class="pane-title">🔢 EXI Input</span>
+          <div class="pane-tools">
+            <label class="icon-btn" for="exi-upload">📁 Upload .exi</label>
+            <input id="exi-upload" type="file" accept=".exi,application/octet-stream" hidden/>
+            <button id="btn-exi-clear" class="icon-btn">✕</button>
+          </div>
+        </div>
+
+        <textarea id="exi-in" class="code-area"
+          spellcheck="false"
+          placeholder="Base64-encoded EXI data를 붙여넣거나&#10;.exi 파일을 업로드하세요.&#10;&#10;예) JEXJgAECB6my…"></textarea>
+
+        <div class="pane-footer">
+          <span id="exi-size" class="footer-info">0 B</span>
+          <span id="exi-magic" class="footer-tag"></span>
+        </div>
+
+        <div id="drop-zone">
+          <span>📂 .exi 파일을 여기에 드래그하세요</span>
+        </div>
+
+        <div class="opt-row">
+          <span class="opt-label">Alignment mode:</span>
+          <div class="seg" id="dec-align">
+            <button class="seg-btn active" data-val="bit">Bit-packed</button>
+            <button class="seg-btn" data-val="byte">Byte-aligned</button>
+            <button class="seg-btn" data-val="compress">Compressed</button>
+          </div>
+          <button id="btn-decode" class="action-btn">🔍 Decode to XML</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: XML output -->
+      <div class="pane">
+        <div class="pane-header">
+          <span class="pane-title">📄 XML Output</span>
+          <div class="pane-tools">
+            <button id="btn-copy-xml" class="icon-btn" disabled>📋 Copy XML</button>
+            <button id="btn-dl-xml"   class="icon-btn" disabled>⬇ .xml</button>
+          </div>
+        </div>
+
+        <div id="dec-stats" class="stat-bar hidden">
+          <div class="stat"><div class="sv" id="dv-exi">—</div><div class="sk">EXI</div></div>
+          <div class="stat-arrow">→</div>
+          <div class="stat"><div class="sv" id="dv-xml">—</div><div class="sk">XML</div></div>
+          <div class="stat hi"><div class="sv" id="dv-exp">—</div><div class="sk">확장률</div></div>
+        </div>
+
+        <div id="dec-empty" class="empty-state">
+          <div class="empty-icon">📄</div>
+          <div>EXI 바이너리를 입력하고 <strong>Decode to XML</strong>을 클릭하세요</div>
+        </div>
+        <pre id="xml-out" class="code-area out xml-hl hidden"></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ ABOUT ═══════════════════════════════════════════ -->
+  <section id="tab-about" class="tab hidden">
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>🔌 ISO 15118-20:2022</h3>
+        <p>전기차(EV)와 충전소(EVSE) 사이의 V2G 통신 표준. AC/DC 충전, 양방향 전력 전송(BPT), 스마트 충전 스케줄을 정의합니다.</p>
+      </div>
+      <div class="about-card">
+        <h3>⚡ W3C EXI 1.0</h3>
+        <p>Efficient XML Interchange — XML을 이진 포맷으로 압축하는 W3C 표준. IoT·자동차 네트워크에서 XML 대비 <strong>60~85% 크기</strong>를 절감합니다.</p>
+      </div>
+      <div class="about-card">
+        <h3>📦 지원 메시지</h3>
+        <ul class="about-list">
+          <li>AppProtocol Handshake</li>
+          <li>SessionSetup · AuthorizationSetup · Authorization</li>
+          <li>ServiceDiscovery · ServiceSelection</li>
+          <li>ScheduleExchange · PowerDelivery · SessionStop</li>
+          <li>DC CableCheck · PreCharge · ChargeLoop · WeldingDetection</li>
+          <li>AC ChargeParameterDiscovery · ChargeLoop</li>
+        </ul>
+      </div>
+      <div class="about-card">
+        <h3>🛠 Alignment 모드</h3>
+        <ul class="about-list">
+          <li><b>Bit-packed</b> — 비트 단위 패킹, 최소 크기 (기본값)</li>
+          <li><b>Byte-aligned</b> — 바이트 경계 정렬, 디버깅 용이</li>
+          <li><b>Compressed</b> — zlib deflate 압축 채널</li>
+        </ul>
+      </div>
+      <div class="about-card">
+        <h3>🔧 기술 스택</h3>
+        <ul class="about-list">
+          <li><b>libexi15118</b> — C99 EXI 코덱 (.so)</li>
+          <li><b>Node.js</b> — 순수 내장 모듈 HTTP 서버</li>
+          <li><b>Vanilla JS</b> — 의존성 없는 프론트엔드</li>
+        </ul>
+      </div>
+      <div class="about-card">
+        <h3>🌐 REST API</h3>
+        <ul class="about-list">
+          <li><code>GET  /api/health</code></li>
+          <li><code>GET  /api/examples</code></li>
+          <li><code>GET  /api/example/:name</code></li>
+          <li><code>POST /api/encode</code> — JSON {xml, alignment}</li>
+          <li><code>POST /api/decode</code> — JSON {exi_base64, alignment}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="loader" class="loader hidden">
+  <div class="loader-box">
+    <div class="spin"></div>
+    <div id="loader-msg">처리 중…</div>
+  </div>
+</div>
+<div id="toast" class="toast hidden"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

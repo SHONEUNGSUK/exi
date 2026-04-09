@@ -1,0 +1,22 @@
+app = "iso15118-exi-codec"
+primary_region = "nrt"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[[services]]
+  http_checks = []
+  internal_port = 3000
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+  [[services.ports]]
+    handlers = ["tls","http"]
+    port = 443
+
+  [[services.http_checks]]
+    interval = "30s"
+    path = "/api/health"
+    timeout = "5s"

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ISO 15118-20:2022  V2GCI_AppProtocol.xsd
+  Application Protocol Handshake Schema
+  Derived from ISO 15118-20 public specification structure
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:v2gci_app="urn:iso:std:iso:15118:-20:AppProtocol"
+           targetNamespace="urn:iso:std:iso:15118:-20:AppProtocol"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <xs:element name="supportedAppProtocolReq"  type="v2gci_app:supportedAppProtocolReqType"/>
+  <xs:element name="supportedAppProtocolRes"  type="v2gci_app:supportedAppProtocolResType"/>
+
+  <!-- ── Request ─────────────────────────────────────────────── -->
+  <xs:complexType name="supportedAppProtocolReqType">
+    <xs:sequence>
+      <xs:element name="AppProtocol" type="v2gci_app:AppProtocolType"
+                  minOccurs="1" maxOccurs="20"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AppProtocolType">
+    <xs:sequence>
+      <xs:element name="ProtocolNamespace" type="v2gci_app:protocolNamespaceType"/>
+      <xs:element name="VersionNumberMajor" type="xs:unsignedInt"/>
+      <xs:element name="VersionNumberMinor" type="xs:unsignedInt"/>
+      <xs:element name="SchemaID"           type="v2gci_app:schemaIDType"/>
+      <xs:element name="Priority"           type="v2gci_app:priorityType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ── Response ────────────────────────────────────────────── -->
+  <xs:complexType name="supportedAppProtocolResType">
+    <xs:sequence>
+      <xs:element name="ResponseCode"    type="v2gci_app:responseCodeType"/>
+      <xs:element name="SchemaID"        type="v2gci_app:schemaIDType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ── Simple Types ─────────────────────────────────────────── -->
+  <xs:simpleType name="protocolNamespaceType">
+    <xs:restriction base="xs:anyURI">
+      <xs:maxLength value="100"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="schemaIDType">
+    <xs:restriction base="xs:unsignedByte"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="priorityType">
+    <xs:restriction base="xs:unsignedByte">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="20"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="responseCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OK_SuccessfulNegotiation"/>
+      <xs:enumeration value="OK_SuccessfulNegotiationWithMinorDeviation"/>
+      <xs:enumeration value="Failed_NoNegotiation"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

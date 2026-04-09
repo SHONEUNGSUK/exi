@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ISO 15118-20  ServiceDiscoveryReq -->
+<cm:ServiceDiscoveryReq xmlns:cm="urn:iso:std:iso:15118:-20:CommonMessages"
+                         xmlns:ct="urn:iso:std:iso:15118:-20:CommonTypes">
+  <cm:Header>
+    <ct:SessionID>A1B2C3D4E5F60708</ct:SessionID>
+    <ct:TimeStamp>1705312210</ct:TimeStamp>
+  </cm:Header>
+</cm:ServiceDiscoveryReq>

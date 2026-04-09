@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ISO 15118-20:2022  V2GCI_DC.xsd
+  DC Charging message schema (incl. BPT – Bidirectional Power Transfer)
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:v2gci_dc="urn:iso:std:iso:15118:-20:DC"
+           xmlns:v2gci_ct="urn:iso:std:iso:15118:-20:CommonTypes"
+           targetNamespace="urn:iso:std:iso:15118:-20:DC"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <xs:import namespace="urn:iso:std:iso:15118:-20:CommonTypes"
+             schemaLocation="V2GCI_CommonTypes.xsd"/>
+
+  <!-- ── Root elements ──────────────────────────────────────── -->
+  <xs:element name="DC_ChargeParameterDiscoveryReq"
+              type="v2gci_dc:DC_ChargeParameterDiscoveryReqType"/>
+  <xs:element name="DC_ChargeParameterDiscoveryRes"
+              type="v2gci_dc:DC_ChargeParameterDiscoveryResType"/>
+
+  <xs:element name="DC_CableCheckReq"
+              type="v2gci_dc:DC_CableCheckReqType"/>
+  <xs:element name="DC_CableCheckRes"
+              type="v2gci_dc:DC_CableCheckResType"/>
+
+  <xs:element name="DC_PreChargeReq"
+              type="v2gci_dc:DC_PreChargeReqType"/>
+  <xs:element name="DC_PreChargeRes"
+              type="v2gci_dc:DC_PreChargeResType"/>
+
+  <xs:element name="DC_ChargeLoopReq"
+              type="v2gci_dc:DC_ChargeLoopReqType"/>
+  <xs:element name="DC_ChargeLoopRes"
+              type="v2gci_dc:DC_ChargeLoopResType"/>
+
+  <xs:element name="DC_WeldingDetectionReq"
+              type="v2gci_dc:DC_WeldingDetectionReqType"/>
+  <xs:element name="DC_WeldingDetectionRes"
+              type="v2gci_dc:DC_WeldingDetectionResType"/>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  DC_ChargeParameterDiscovery
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="DC_ChargeParameterDiscoveryReqType">
+    <xs:sequence>
+      <xs:element name="Header"                  type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="MaximumChargePower"       type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MinimumChargePower"       type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MaximumChargeCurrent"     type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MinimumChargeCurrent"     type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MaximumVoltage"           type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MinimumVoltage"           type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="TargetSOC"                type="v2gci_dc:percentValueType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DC_ChargeParameterDiscoveryResType">
+    <xs:sequence>
+      <xs:element name="Header"                  type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="ResponseCode"             type="v2gci_ct:responseCodeType"/>
+      <xs:element name="MaximumChargePower"       type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MinimumChargePower"       type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MaximumChargeCurrent"     type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MinimumChargeCurrent"     type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MaximumVoltage"           type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MinimumVoltage"           type="v2gci_ct:rationalNumberType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  DC_CableCheck
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="DC_CableCheckReqType">
+    <xs:sequence>
+      <xs:element name="Header"        type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="EVErrorCode"   type="v2gci_dc:evErrorCodeType"/>
+      <xs:element name="EVRESSSOC"     type="v2gci_dc:percentValueType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DC_CableCheckResType">
+    <xs:sequence>
+      <xs:element name="Header"          type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="ResponseCode"    type="v2gci_ct:responseCodeType"/>
+      <xs:element name="EVSEProcessing"  type="v2gci_ct:processingType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  DC_PreCharge
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="DC_PreChargeReqType">
+    <xs:sequence>
+      <xs:element name="Header"              type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="EVErrorCode"         type="v2gci_dc:evErrorCodeType"/>
+      <xs:element name="EVRESSSOC"           type="v2gci_dc:percentValueType"/>
+      <xs:element name="EVTargetVoltage"     type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVTargetCurrent"     type="v2gci_ct:rationalNumberType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DC_PreChargeResType">
+    <xs:sequence>
+      <xs:element name="Header"              type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="ResponseCode"        type="v2gci_ct:responseCodeType"/>
+      <xs:element name="EVSEPresentVoltage"  type="v2gci_ct:rationalNumberType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  DC_ChargeLoop
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="DC_ChargeLoopReqType">
+    <xs:sequence>
+      <xs:element name="Header"                  type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="DisplayParameters"       type="v2gci_dc:displayParametersType" minOccurs="0"/>
+      <xs:element name="EVErrorCode"             type="v2gci_dc:evErrorCodeType"/>
+      <xs:element name="EVRESSSOC"               type="v2gci_dc:percentValueType"/>
+      <xs:element name="EVTargetEnergyRequest"   type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVMaximumEnergyRequest"  type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVMinimumEnergyRequest"  type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVTargetCurrent"         type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVTargetVoltage"         type="v2gci_ct:rationalNumberType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DC_ChargeLoopResType">
+    <xs:sequence>
+      <xs:element name="Header"                type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="ResponseCode"          type="v2gci_ct:responseCodeType"/>
+      <xs:element name="EVSEPresentCurrent"    type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVSEPresentVoltage"    type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVSEPowerLimitAchieved"   type="xs:boolean"/>
+      <xs:element name="EVSECurrentLimitAchieved" type="xs:boolean"/>
+      <xs:element name="EVSEVoltageLimitAchieved" type="xs:boolean"/>
+      <xs:element name="MeterInfo"             type="v2gci_dc:meterInfoType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  DC_WeldingDetection
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="DC_WeldingDetectionReqType">
+    <xs:sequence>
+      <xs:element name="Header"       type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="EVErrorCode"  type="v2gci_dc:evErrorCodeType"/>
+      <xs:element name="EVRESSSOC"    type="v2gci_dc:percentValueType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DC_WeldingDetectionResType">
+    <xs:sequence>
+      <xs:element name="Header"              type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="ResponseCode"        type="v2gci_ct:responseCodeType"/>
+      <xs:element name="EVSEPresentVoltage"  type="v2gci_ct:rationalNumberType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Supporting complex types
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="displayParametersType">
+    <xs:sequence>
+      <xs:element name="PresentSOC"              type="v2gci_dc:percentValueType"  minOccurs="0"/>
+      <xs:element name="MinimumSOC"              type="v2gci_dc:percentValueType"  minOccurs="0"/>
+      <xs:element name="TargetSOC"               type="v2gci_dc:percentValueType"  minOccurs="0"/>
+      <xs:element name="MaximumSOC"              type="v2gci_dc:percentValueType"  minOccurs="0"/>
+      <xs:element name="RemainingTimeToMinimumSOC" type="xs:unsignedInt"           minOccurs="0"/>
+      <xs:element name="RemainingTimeToTargetSOC"  type="xs:unsignedInt"           minOccurs="0"/>
+      <xs:element name="RemainingTimeToMaximumSOC" type="xs:unsignedInt"           minOccurs="0"/>
+      <xs:element name="ChargingComplete"        type="xs:boolean"                 minOccurs="0"/>
+      <xs:element name="BatteryEnergyCapacity"   type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="InletHot"                type="xs:boolean"                 minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="meterInfoType">
+    <xs:sequence>
+      <xs:element name="MeterID"         type="xs:string"/>
+      <xs:element name="ChargedEnergyReadingWh"   type="xs:unsignedLong"/>
+      <xs:element name="BPT_DischargedEnergyReadingWh" type="xs:unsignedLong" minOccurs="0"/>
+      <xs:element name="CapacitiveEnergyReadingVARh"   type="xs:unsignedLong" minOccurs="0"/>
+      <xs:element name="BPT_InductiveEnergyReadingVARh" type="xs:unsignedLong" minOccurs="0"/>
+      <xs:element name="MeterTimestamp"  type="xs:unsignedLong"    minOccurs="0"/>
+      <xs:element name="MeterSignature"  type="xs:base64Binary"    minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Simple Types
+       ════════════════════════════════════════════════════════ -->
+  <xs:simpleType name="percentValueType">
+    <xs:restriction base="xs:byte">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="100"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="evErrorCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NO_ERROR"/>
+      <xs:enumeration value="FAILED_ContactorError"/>
+      <xs:enumeration value="FAILED_EVShiftPosition"/>
+      <xs:enumeration value="FAILED_EVShiftPosition_Brake"/>
+      <xs:enumeration value="FAILED_EVRESSTemperatureInhibit"/>
+      <xs:enumeration value="FAILED_EVOther"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

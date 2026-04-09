@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ISO 15118-20  DC_ChargeParameterDiscoveryRes  (V2GCI_DC)
+     EVSE → EV  : EVSE capability parameters for DC charging. -->
+<dc:DC_ChargeParameterDiscoveryRes
+    xmlns:dc="urn:iso:std:iso:15118:-20:DC"
+    xmlns:ct="urn:iso:std:iso:15118:-20:CommonTypes">
+  <dc:Header>
+    <ct:SessionID>A1B2C3D4E5F60708</ct:SessionID>
+    <ct:TimeStamp>1705312255</ct:TimeStamp>
+  </dc:Header>
+  <dc:ResponseCode>OK</dc:ResponseCode>
+  <!-- Max charge power: 150 kW (Value=150, Exponent=3 → 150×10^3 W) -->
+  <dc:MaximumChargePower>
+    <ct:Exponent>3</ct:Exponent>
+    <ct:Value>150</ct:Value>
+  </dc:MaximumChargePower>
+  <!-- Min charge power: 1 kW -->
+  <dc:MinimumChargePower>
+    <ct:Exponent>3</ct:Exponent>
+    <ct:Value>1</ct:Value>
+  </dc:MinimumChargePower>
+  <!-- Max charge current: 375 A -->
+  <dc:MaximumChargeCurrent>
+    <ct:Exponent>0</ct:Exponent>
+    <ct:Value>375</ct:Value>
+  </dc:MaximumChargeCurrent>
+  <!-- Min charge current: 1 A -->
+  <dc:MinimumChargeCurrent>
+    <ct:Exponent>0</ct:Exponent>
+    <ct:Value>1</ct:Value>
+  </dc:MinimumChargeCurrent>
+  <!-- Voltage range: 200–920 V -->
+  <dc:MaximumVoltage>
+    <ct:Exponent>0</ct:Exponent>
+    <ct:Value>920</ct:Value>
+  </dc:MaximumVoltage>
+  <dc:MinimumVoltage>
+    <ct:Exponent>0</ct:Exponent>
+    <ct:Value>200</ct:Value>
+  </dc:MinimumVoltage>
+</dc:DC_ChargeParameterDiscoveryRes>

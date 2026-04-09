@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ISO 15118-20  DC_CableCheckReq  (V2GCI_DC)
+     EV → EVSE  : Checks cable continuity and insulation resistance.
+     Sent repeatedly until EVSEProcessing = Finished. -->
+<dc:DC_CableCheckReq
+    xmlns:dc="urn:iso:std:iso:15118:-20:DC"
+    xmlns:ct="urn:iso:std:iso:15118:-20:CommonTypes">
+  <dc:Header>
+    <ct:SessionID>A1B2C3D4E5F60708</ct:SessionID>
+    <ct:TimeStamp>1705312210</ct:TimeStamp>
+  </dc:Header>
+  <dc:EVErrorCode>NO_ERROR</dc:EVErrorCode>
+  <dc:EVRESSSOC>50</dc:EVRESSSOC>
+</dc:DC_CableCheckReq>

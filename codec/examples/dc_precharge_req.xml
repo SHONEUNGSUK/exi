@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ISO 15118-20  DC_PreChargeReq  (V2GCI_DC) -->
+<dc:DC_PreChargeReq xmlns:dc="urn:iso:std:iso:15118:-20:DC"
+                    xmlns:ct="urn:iso:std:iso:15118:-20:CommonTypes">
+  <dc:Header>
+    <ct:SessionID>A1B2C3D4E5F60708</ct:SessionID>
+    <ct:TimeStamp>1705312300</ct:TimeStamp>
+  </dc:Header>
+  <dc:EVErrorCode>NO_ERROR</dc:EVErrorCode>
+  <dc:EVRESSSOC>50</dc:EVRESSSOC>
+  <dc:EVTargetVoltage>
+    <ct:Exponent>0</ct:Exponent>
+    <ct:Value>400</ct:Value>
+  </dc:EVTargetVoltage>
+  <dc:EVTargetCurrent>
+    <ct:Exponent>0</ct:Exponent>
+    <ct:Value>2</ct:Value>
+  </dc:EVTargetCurrent>
+</dc:DC_PreChargeReq>

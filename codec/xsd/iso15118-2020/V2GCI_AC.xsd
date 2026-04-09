@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ISO 15118-20:2022  V2GCI_AC.xsd
+  AC Charging message schema (incl. BPT)
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:v2gci_ac="urn:iso:std:iso:15118:-20:AC"
+           xmlns:v2gci_ct="urn:iso:std:iso:15118:-20:CommonTypes"
+           targetNamespace="urn:iso:std:iso:15118:-20:AC"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <xs:import namespace="urn:iso:std:iso:15118:-20:CommonTypes"
+             schemaLocation="V2GCI_CommonTypes.xsd"/>
+
+  <!-- ── Root elements ──────────────────────────────────────── -->
+  <xs:element name="AC_ChargeParameterDiscoveryReq"
+              type="v2gci_ac:AC_ChargeParameterDiscoveryReqType"/>
+  <xs:element name="AC_ChargeParameterDiscoveryRes"
+              type="v2gci_ac:AC_ChargeParameterDiscoveryResType"/>
+
+  <xs:element name="AC_ChargeLoopReq"
+              type="v2gci_ac:AC_ChargeLoopReqType"/>
+  <xs:element name="AC_ChargeLoopRes"
+              type="v2gci_ac:AC_ChargeLoopResType"/>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  AC_ChargeParameterDiscovery
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="AC_ChargeParameterDiscoveryReqType">
+    <xs:sequence>
+      <xs:element name="Header"                    type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="MaximumChargePower"        type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MaximumChargePower_L2"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="MaximumChargePower_L3"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="MinimumChargePower"        type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MinimumChargePower_L2"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="MinimumChargePower_L3"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AC_ChargeParameterDiscoveryResType">
+    <xs:sequence>
+      <xs:element name="Header"                    type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="ResponseCode"              type="v2gci_ct:responseCodeType"/>
+      <xs:element name="MaximumChargePower"        type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MaximumChargePower_L2"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="MaximumChargePower_L3"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="MinimumChargePower"        type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MinimumChargePower_L2"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="MinimumChargePower_L3"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="NominalFrequency"          type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="MaximumPowerAsymmetry"     type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="MaximumChargeCurrent"      type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="MinimumChargeCurrent"      type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  AC_ChargeLoop
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="AC_ChargeLoopReqType">
+    <xs:sequence>
+      <xs:element name="Header"                    type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="DisplayParameters"         type="v2gci_ac:AC_displayParametersType" minOccurs="0"/>
+      <xs:element name="EVTargetEnergyRequest"     type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVMaximumEnergyRequest"    type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVMinimumEnergyRequest"    type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVMaximumChargePower"      type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVMaximumChargePower_L2"   type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="EVMaximumChargePower_L3"   type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="EVMinimumChargePower"      type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVMinimumChargePower_L2"   type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="EVMinimumChargePower_L3"   type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AC_ChargeLoopResType">
+    <xs:sequence>
+      <xs:element name="Header"                    type="v2gci_ct:messageHeaderType"/>
+      <xs:element name="ResponseCode"              type="v2gci_ct:responseCodeType"/>
+      <xs:element name="EVSEPresentActivePower"    type="v2gci_ct:rationalNumberType"/>
+      <xs:element name="EVSEPresentActivePower_L2" type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="EVSEPresentActivePower_L3" type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Supporting types
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="AC_displayParametersType">
+    <xs:sequence>
+      <xs:element name="PresentSOC"                  type="xs:byte"  minOccurs="0"/>
+      <xs:element name="MinimumSOC"                  type="xs:byte"  minOccurs="0"/>
+      <xs:element name="TargetSOC"                   type="xs:byte"  minOccurs="0"/>
+      <xs:element name="MaximumSOC"                  type="xs:byte"  minOccurs="0"/>
+      <xs:element name="RemainingTimeToMinimumSOC"   type="xs:unsignedInt" minOccurs="0"/>
+      <xs:element name="RemainingTimeToTargetSOC"    type="xs:unsignedInt" minOccurs="0"/>
+      <xs:element name="RemainingTimeToMaximumSOC"   type="xs:unsignedInt" minOccurs="0"/>
+      <xs:element name="ChargingComplete"            type="xs:boolean" minOccurs="0"/>
+      <xs:element name="BatteryEnergyCapacity"       type="v2gci_ct:rationalNumberType" minOccurs="0"/>
+      <xs:element name="InletHot"                    type="xs:boolean" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

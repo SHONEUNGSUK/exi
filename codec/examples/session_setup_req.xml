@@ -1,0 +1,13 @@
+<!-- ════════════════════════════════════════════════════════════════════
+     ISO 15118-20  SessionSetupReq  (V2GCI_CommonMessages)
+     EV → EVSE  : First message of a V2G communication session.
+     ════════════════════════════════════════════════════════════════════ -->
+<?xml version="1.0" encoding="UTF-8"?>
+<cm:SessionSetupReq xmlns:cm="urn:iso:std:iso:15118:-20:CommonMessages"
+                    xmlns:ct="urn:iso:std:iso:15118:-20:CommonTypes">
+  <cm:Header>
+    <ct:SessionID>0000000000000000</ct:SessionID>
+    <ct:TimeStamp>1705312200</ct:TimeStamp>
+  </cm:Header>
+  <cm:EVCCID>AABBCCDDEEFF</cm:EVCCID>
+</cm:SessionSetupReq>

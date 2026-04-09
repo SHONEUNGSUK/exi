@@ -1,0 +1,6 @@
+codec/build/
+node_modules/
+*.exi
+*.decoded.xml
+.env
+.DS_Store

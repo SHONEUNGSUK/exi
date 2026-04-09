@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ISO 15118-20:2022  V2GCI_CommonTypes.xsd
+  Common data types shared by all ISO 15118-20 message schemas
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:v2gci_ct="urn:iso:std:iso:15118:-20:CommonTypes"
+           targetNamespace="urn:iso:std:iso:15118:-20:CommonTypes"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Response Codes
+       ════════════════════════════════════════════════════════ -->
+  <xs:simpleType name="responseCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OK"/>
+      <xs:enumeration value="OK_CertificateExpiresSoon"/>
+      <xs:enumeration value="OK_NewSessionEstablished"/>
+      <xs:enumeration value="OK_OldSessionJoined"/>
+      <xs:enumeration value="OK_PowerToleranceConfirmed"/>
+      <xs:enumeration value="WARNING_AuthorizationSelectionInvalid"/>
+      <xs:enumeration value="WARNING_CertificateExpired"/>
+      <xs:enumeration value="WARNING_CertificateNotYetValid"/>
+      <xs:enumeration value="WARNING_CertificateRevoked"/>
+      <xs:enumeration value="WARNING_CertificateValidationError"/>
+      <xs:enumeration value="WARNING_ChallengeInvalid"/>
+      <xs:enumeration value="WARNING_EIMAuthorizationFailure"/>
+      <xs:enumeration value="WARNING_eMSPUnknown"/>
+      <xs:enumeration value="WARNING_EVPowerProfileViolation"/>
+      <xs:enumeration value="WARNING_GeneralPnCAuthorizationError"/>
+      <xs:enumeration value="WARNING_NoCertificateAvailable"/>
+      <xs:enumeration value="WARNING_NoContractMatchingPCIDFound"/>
+      <xs:enumeration value="WARNING_PowerToleranceNotConfirmed"/>
+      <xs:enumeration value="WARNING_ScheduleRenegotiationFailed"/>
+      <xs:enumeration value="WARNING_StandbyNotAllowed"/>
+      <xs:enumeration value="WARNING_WPT"/>
+      <xs:enumeration value="FAILED"/>
+      <xs:enumeration value="FAILED_AssociationError"/>
+      <xs:enumeration value="FAILED_ContactorError"/>
+      <xs:enumeration value="FAILED_EVPowerProfileInvalid"/>
+      <xs:enumeration value="FAILED_EVPowerProfileViolation"/>
+      <xs:enumeration value="FAILED_MeteringSignatureNotValid"/>
+      <xs:enumeration value="FAILED_NoEnergyTransferServiceSelected"/>
+      <xs:enumeration value="FAILED_NoServiceRenegotiationAllowed"/>
+      <xs:enumeration value="FAILED_PauseNotAllowed"/>
+      <xs:enumeration value="FAILED_PowerDeliveryNotApplied"/>
+      <xs:enumeration value="FAILED_PowerToleranceNotConfirmed"/>
+      <xs:enumeration value="FAILED_ScheduleSelectionInvalid"/>
+      <xs:enumeration value="FAILED_SequenceError"/>
+      <xs:enumeration value="FAILED_ServiceIDInvalid"/>
+      <xs:enumeration value="FAILED_ServiceSelectionInvalid"/>
+      <xs:enumeration value="FAILED_SignatureError"/>
+      <xs:enumeration value="FAILED_UnknownSession"/>
+      <xs:enumeration value="FAILED_WrongChargeParameter"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Processing Type (mandatory in every message body)
+       ════════════════════════════════════════════════════════ -->
+  <xs:simpleType name="processingType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Finished"/>
+      <xs:enumeration value="Ongoing"/>
+      <xs:enumeration value="Ongoing_WaitingForCustomerInteraction"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Identifiers and Strings
+       ════════════════════════════════════════════════════════ -->
+  <xs:simpleType name="identifierType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="nameType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="80"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="descriptionType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="160"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="numericIDType">
+    <xs:restriction base="xs:unsignedShort"/>
+  </xs:simpleType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Session / EVSE / EV Identifiers
+       ════════════════════════════════════════════════════════ -->
+  <xs:simpleType name="sessionIDType">
+    <xs:restriction base="xs:hexBinary">
+      <xs:length value="8"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="evseIDType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="7"/>
+      <xs:maxLength value="37"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Physical Value (rational number with multiplier)
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="rationalNumberType">
+    <xs:sequence>
+      <xs:element name="Exponent" type="xs:byte"/>
+      <xs:element name="Value"    type="xs:short"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Message Header
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="messageHeaderType">
+    <xs:sequence>
+      <xs:element name="SessionID"  type="v2gci_ct:sessionIDType"/>
+      <xs:element name="TimeStamp"  type="xs:unsignedLong"/>
+      <xs:element name="Signature"  type="v2gci_ct:signatureType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Signature (simplified from XML-DSIG)
+       ════════════════════════════════════════════════════════ -->
+  <xs:complexType name="signatureType">
+    <xs:sequence>
+      <xs:element name="SignedInfoElement"  type="xs:base64Binary"/>
+      <xs:element name="SignatureValue"     type="xs:base64Binary"/>
+      <xs:element name="KeyInfo"            type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Energy Transfer Modes
+       ════════════════════════════════════════════════════════ -->
+  <xs:simpleType name="energyTransferModeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DC_core"/>
+      <xs:enumeration value="DC_extended"/>
+      <xs:enumeration value="DC_combo_core"/>
+      <xs:enumeration value="DC_unique"/>
+      <xs:enumeration value="AC_single_phase_core"/>
+      <xs:enumeration value="AC_three_phase_core"/>
+      <xs:enumeration value="WPT"/>
+      <xs:enumeration value="DC_BPT"/>
+      <xs:enumeration value="AC_BPT"/>
+      <xs:enumeration value="ACDP_BPT"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Authorization
+       ════════════════════════════════════════════════════════ -->
+  <xs:simpleType name="authorizationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EIM"/>
+      <xs:enumeration value="PnC"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ════════════════════════════════════════════════════════
+       §  Certificate
+       ════════════════════════════════════════════════════════ -->
+  <xs:simpleType name="certificateType">
+    <xs:restriction base="xs:base64Binary">
+      <xs:maxLength value="1600"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="subCertificatesType">
+    <xs:sequence>
+      <xs:element name="Certificate" type="v2gci_ct:certificateType"
+                  minOccurs="1" maxOccurs="3"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
