@@ -1,0 +1,19 @@
+# Build artifacts (re-built inside Docker)
+codec/build/
+
+# Development files
+node_modules/
+.git/
+.gitignore
+
+# Test output files
+*.exi
+*.decoded.xml
+
+# Documentation
+README.md
+
+# Local config
+.env
+.DS_Store
+*.log
