@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: iso15118-exi-codec
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: |
+      apt-get install -y gcc make zlib1g-dev 2>/dev/null || true
+      bash scripts/build_codec.sh
+    startCommand: node server/app.js
+    envVars:
+      - key: PORT
+        value: 3000
+    healthCheckPath: /api/health
